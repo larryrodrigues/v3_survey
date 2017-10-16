@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <script type="text/JavaScript">                 
+            function greetUser() {
+                var now = new Date(); // current date
+                var hour = now.getHours(); // current hour 0 - 23
+                var name;
+                
+                if( document.cookie){
+                    var myCookie = unescape(document.cookie);
+                    var cookieTokens = myCookie.split("=");
+                    name = cookieTokens[1];
+                } else {
+                    getName(false);
+                    
+                    //name = window.prompt( "Please enter your name.");
+                    //expDate = new Date();
+                    //expDate.setDate(expDate.getDate() + 14); 
+                    //expires = expDate.toGMTString();
+                    //document.cookie = "name="+escape(name)+"; expires="+expires;
+                }
+                whdr = document.getElementById("welcome_header");
+                hdrText = "";
+                if (whdr != null) {
+                    if ( hour < 12 ) {// determine whether it is morning
+                        hdrText = hdrText + "Good Morning, "+name;
+                    } else {
+                        hour = hour - 12; // convert from 24-hour clock to PM time
+                        // determine whether it is afternoon or evening
+                        if ( hour < 6 ){
+                            hdrText = hdrText + "Good Afternoon, "+name;
+                        }else{
+                           hdrText = hdrText + "Good Evening, "+name;
+                        }
+                    } // end else
+                    hdrText = hdrText + ".&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>Not "+name+"? Please <a onclick=\"getDifferentName()\">click here</a></i>.";
+                    whdr.innerHTML = hdrText;
+                }
+            }
+            
+            function getName(pageRefresh) {
+                pageRefresh = !!pageRefresh;
+                name = window.prompt( "Please enter your name.");
+                if( name != null &&  name.trim() != "") {
+                    expDate = new Date();
+                    expDate.setDate(expDate.getDate() + 14); 
+                    expires = expDate.toGMTString();
+                    document.cookie = "name="+escape(name)+"; expires="+expires;
+                    window.location.reload(true);
+                } else {
+                    alert("Please enter a valid name.");
+                }
+            }
+            
+            function getDifferentName() {
+              getName(true);    
+            }
+            
+            function pageSetup(){
+                greetUser();
+            }
+        </script>
+        <title>George Mason University Department of Computer Science Prospective Student Survey</title>
+         <link rel="stylesheet" type="text/css" href="lrhw2_styles.css"/>
+    </head>
+    <body class="welcome" onload="pageSetup()">
+<div class="topnav">
+  <a class="active" href="./hw2_csinfo.html">CS Department Information</a>
+  <a href="./index.html">Larry Rodrigues Class Web Page</a>
+  <a href="#contact">Contact Larry Rodrigues</a>
+  <a href="#survey">Survey</a>
+</div>
+        <h1 class="top_header">George Mason University Department of Computer Science Prospective Student Survey</h1>
+        <h2 id="welcome_header"></h2>
+        <h2>Please help us better understand our prospect Computer Science students by completing this survey</h2>
+        <form action="" method="post" autocomplete="on">
+        <table align=center" width="100%">
+            <tr>
+                <td align="right">Username:</td><td align="left"><input type="text" name="username"  size="20"  autocomplete="on" maxlength="20" autofocus="autofocus" required /></td>
+                <td align="right">Email Address:</td><td align="left"><input required type="email" name="email" size="30"  autocomplete="on" maxlength="50" placeholder="name@domain-name.com" />&nbsp;[name@domain-name.com]</td>
+            </tr>
+            <tr>
+                <td align="right">Name (First Last):</td><td align="left"><input required type="text" name="namefirstlast"  size="30"  autocomplete="on" maxlength="50"/></td>
+                <td align="right">Phone Number:</td><td align="left"><input type="tel" name="phonenumber" pattern="\(\d{3}\)+\d{3}-\d{4}" placeholder="(###) ###-####"/>&nbsp;[(123)-456-7890]</td>
+            </tr>
+            <tr>
+                <td align="right" colspan="1">Street Address:</td><td align="left" colspan="3"><input type="text" name="streetaddress"  size="100"  autocomplete="on" maxlength="100"/></td>
+            </tr>
+            <tr>
+                <td align="right">City:</td><td align="left"><input type="text" name="city"  size="30"  autocomplete="on" maxlength="50"/></td>
+                <td align="right">State:</td><td align="left"><select name="state" >
+        <option value="--">----------</option>                
+	<option value="AL">Alabama</option>
+	<option value="AK">Alaska</option>
+	<option value="AZ">Arizona</option>
+	<option value="AR">Arkansas</option>
+	<option value="CA">California</option>
+	<option value="CO">Colorado</option>
+	<option value="CT">Connecticut</option>
+	<option value="DE">Delaware</option>
+	<option value="DC">District Of Columbia</option>
+	<option value="FL">Florida</option>
+	<option value="GA">Georgia</option>
+	<option value="HI">Hawaii</option>
+	<option value="ID">Idaho</option>
+	<option value="IL">Illinois</option>
+	<option value="IN">Indiana</option>
+	<option value="IA">Iowa</option>
+	<option value="KS">Kansas</option>
+	<option value="KY">Kentucky</option>
+	<option value="LA">Louisiana</option>
+	<option value="ME">Maine</option>
+	<option value="MD">Maryland</option>
+	<option value="MA">Massachusetts</option>
+	<option value="MI">Michigan</option>
+	<option value="MN">Minnesota</option>
+	<option value="MS">Mississippi</option>
+	<option value="MO">Missouri</option>
+	<option value="MT">Montana</option>
+	<option value="NE">Nebraska</option>
+	<option value="NV">Nevada</option>
+	<option value="NH">New Hampshire</option>
+	<option value="NJ">New Jersey</option>
+	<option value="NM">New Mexico</option>
+	<option value="NY">New York</option>
+	<option value="NC">North Carolina</option>
+	<option value="ND">North Dakota</option>
+	<option value="OH">Ohio</option>
+	<option value="OK">Oklahoma</option>
+	<option value="OR">Oregon</option>
+	<option value="PA">Pennsylvania</option>
+	<option value="RI">Rhode Island</option>
+	<option value="SC">South Carolina</option>
+	<option value="SD">South Dakota</option>
+	<option value="TN">Tennessee</option>
+	<option value="TX">Texas</option>
+	<option value="UT">Utah</option>
+	<option value="VT">Vermont</option>
+	<option value="VA">Virginia</option>
+	<option value="WA">Washington</option>
+	<option value="WV">West Virginia</option>
+	<option value="WI">Wisconsin</option>
+	<option value="WY">Wyoming</option>
+</select>
+                </td>
+            </tr>
+            <tr>
+                <td align="right">Home Page URL:</td><td align="left" colspan="3"><input type="url" name="homepageurl"  placeholder="http://domain-name.com" size="30"  autocomplete="on" maxlength="50"/>&nbsp;[http://domain-name.com]</td>
+            </tr>
+            <tr>
+                <td align="right">Date Of Survey:</td><td align="left" colspan="3"><input type="date" name="surveydate" pattern="yyyy-mm-dd" placeholder="yyyy-mm-dd"/>&nbsp;[yyyy-mm-dd]</td>
+            </tr>
+            <tr>
+                <td align="right">What is your high school graduation month and year?</td>
+                <td align="left" colspan="3">
+                    <input type="text" name="hsgradmonth" placeholder="Select a Month" list="months"/>
+                    <datalist id="months">
+                        <option value="January"></option>
+                        <option value="February"></option>
+                        <option value="March"></option>
+                        <option value="April"></option>
+                        <option value="May"></option>
+                        <option value="June"></option>
+                        <option value="July"></option>
+                        <option value="August"></option>
+                        <option value="September"></option>
+                        <option value="October"></option>
+                        <option value="November"></option>
+                        <option value="December"></option>                        
+                    </datalist>
+                    &nbsp;
+                    <input type="text" size="10" maxlength="4" minlength="4" placeholder="Year YYYY" pattern="[1,2][0-9][0-9][0-9]" />&nbsp;[YYYY]
+                </td>
+            </tr>
+        </table>
+        <br />
+        <table class="survey_option_table" align="center" width="100%">
+            <tr class="survey_option_row">
+                <td align="right" colspan="1" class="survey_option" style="width:50%">What did you like best about the campus?</td>
+                <td align="left" colspan="1" class="survey_option"  style="width:50%">
+                      <input type="checkbox" name="campuslike" value="students" />Students <br />
+                      <input type="checkbox" name="campuslike" value="location" />Location<br />
+                      <input type="checkbox" name="campuslike" value="campus" />Campus<br />
+                      <input type="checkbox" name="campuslike" value="atmosphere" />Atmosphere<br />
+                      <input type="checkbox" name="campuslike" value="dormrooms" />Dorm Rooms<br />
+                      <input type="checkbox" name="campuslike" value="sports" />Sports<br />
+                </td>
+            </tr>
+            <tr>
+                <td align="right" colspan="1" class="survey_option" style="width:50%">How did you become interested in the University?</td>
+                <td align="left" colspan="1" class="survey_option"  style="width:50%">
+                      <input type="radio" name="interestind" value="friends" />Friends<br />
+                      <input type="radio" name="interestind" value="television" />Television<br />
+                      <input type="radio" name="interestind" value="internet" />Internet<br />
+                      <input type="radio" name="interestind" value="other" />Other<br />
+                </td>
+            </tr>
+            <tr>
+                <td align="right" colspan="1" class="survey_option" style="width:50%">How likely are you to recommend this school to other prospective students?</td>
+                <td align="left" colspan="1" class="survey_option"  style="width:50%">
+                    <select name="likelyrecommend">
+                        <option value="verylikely">Very Likely</option>
+                        <option value="likely">Likely</option>
+                        <option value="unlikely">Unlikely</option>
+                    </select>
+                </td>
+        </table>
+        <table class="movie_rating_table" align="center" width="100%">
+            <tr class="movie_rating_row"><td align="left">Please rate a movie.</td></tr>
+                        <tr class="movie_rating_row"><td><input type="hidden" name="userid" value="1"/>
+        &nbsp;Movie Title:&nbsp;<select name="movieid">
+        <option value="-1">----------</option>
+	<option value="1">Sweet Home Alabama</option>
+	<option value="2">Godzilla</option>
+	<option value="3">Raising Arizona</option>
+	<option value="4">The Godfather</option>
+	<option value="5">Pulp Fiction</option>
+	<option value="6">Alien</option>
+	<option value="7">Harry Potter and the Sorcerers Stone</option>
+	<option value="8">Lion In Winter</option>
+	<option value="9">Red</option>
+        <option value="10">Life Of Pie</option>
+        </select>&nbsp;Movie Rating:&nbsp;
+        <select name="movierating">
+        <option value="-1">----------</option>
+	<option value="1">1 -- terrible</option>
+	<option value="2">2</option>
+	<option value="3">3</option>
+	<option value="4">4</option>
+	<option value="5">5</option>
+	<option value="6">6</option>
+	<option value="7">7</option>
+	<option value="8">8</option>
+	<option value="9">9</option>
+        <option value="10">10 -- perfect</option>
+                    </select>&nbsp;[1 (terrible)... 10 (perfect)]&nbsp;
+                    <input type="hidden" name="ratingtstamp" id="ratingtimestamp"/>
+                            </td></tr>
+        </table>
+        <table>
+            <tr><td align="left">Please enter any additional comments.</td></tr>
+            <tr><td align="left"><textarea rows="10" cols="70" name="comments">Enter your comments here...</textarea></td></tr>
+        </table>
+        <table align="center" width="100%">
+            <tr><td align="center"><input type="submit" value="Submit now" /></td></tr>
+        </table>
+        </form>
+        <div class="fixed_bottom_right"><a href="https://www2.gmu.edu/" name="mason-logo"><img src="mason-logo-green.png"/></a></div>
+    </body>
+</html>
