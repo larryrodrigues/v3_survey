@@ -1,8 +1,4 @@
-/* 
-    Created on : Sep 19, 2017
-    Author     : Larry Rodrigues
-    SWE 642 Fall 2017
-*/
+
 div.fixed_bottom_right {
     position: fixed;
     bottom: 0;
@@ -28,6 +24,28 @@ body.welcome {
 h1 {
     color:blue;
 }
+
+h3.welcome {
+    color:blue;
+}
+
+.float_button {
+    background-color: white;
+    color: black;
+    border: 1px solid #4CAF50;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-left:20px;
+}
+
+.float_button:hover {
+    background-color: #4CAF50;
+    color: white;
+}
+
 
 .gneric_style {
     color:black;
@@ -80,4 +98,30 @@ table.survey_option_table tr {
 table.survey_option_table td {
     padding: 5px;
     border-bottom: 1px solid black;   
+}
+
+table.comments_table {
+    border-spacing: 0;
+    border-collapse: collapse;
+    border-top: 1px solid black;
+}
+
+table.average_and_max_table {
+    border-spacing: 0;
+    border-collapse: collapse;
+    border-top: 1px solid black;
+}
+
+table.average_and_max_table td {
+    padding: 15px;
+}
+
+span.output_display {
+    background-color: white;
+    color: black;
+    border: 1px solid black;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;    
 }

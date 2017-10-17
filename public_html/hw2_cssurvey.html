@@ -23,7 +23,8 @@
                 whdr = document.getElementById("welcome_header");
                 hdrText = "";
                 if (whdr != null) {
-                    if ( hour < 12 ) {// determine whether it is morning
+                    if ( hour < 12 ) {
+                        // determine whether it is morning
                         hdrText = hdrText + "Good Morning, "+name;
                     } else {
                         hour = hour - 12; // convert from 24-hour clock to PM time

@@ -1,7 +1,56 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-        <script type="text/JavaScript">                 
+        <script type="text/JavaScript">   
+            function calcAverageMax() {
+                error_block = document.getElementById("avg_max_error");
+                average_block = document.getElementById("average_value");
+                maximum_block = document.getElementById("maximum_value");
+                
+                dataset = document.getElementById("avg_max_set");
+                if( dataset != null ){
+                    raw = dataset.value;
+                    alert("Got: "+raw);
+                    // test regex ^(100|[1-9]|[1-9][0-9])+(,(100|[1-9]|[1-9][0-9])+){9,}$
+                    var patt = new RegExp("^(100|[1-9]|[1-9][0-9])+(,(100|[1-9]|[1-9][0-9])+){9,}$");
+                    var res = patt.test(raw);
+                    if(!res){
+                        // alert("Data set must match at least 10 comman separated values ranging 1 through 100.")
+                        if(error_block != null){
+                            error_block.innerHTML = "Data set must match at least 10 comma separated values ranging 1 through 100.";
+                        }
+                        if( average_block != null ) {
+                            average_block.innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp";
+                        }
+                        if( maximum_block != null ){
+                            maximum_block.innerHTML = "&nbsp;&nbsp:&nbsp;&nbsp";
+                        }
+                    } else {
+                        total = 0;
+                        max = 0;
+                        values = raw.split(",");
+                        for (idx=0; idx<values.length; idx++) {
+                            tmp = parseInt(values[idx]);
+                            total += tmp;
+                            if(tmp > max) {
+                                max = tmp;
+                            }
+                        }
+                        average_value = total/values.length;
+                        
+                        if(error_block != null){
+                            error_block.innerHTML = "&nbsp;";
+                        }
+                        if( average_block != null ) {
+                            average_block.innerHTML = ""+average_value;
+                        }
+                        if( maximum_block != null ){
+                            maximum_block.innerHTML = ""+max;
+                        }
+                    }
+                }
+            }
+            
             function greetUser() {
                 var now = new Date(); // current date
                 var hour = now.getHours(); // current hour 0 - 23
@@ -23,7 +72,8 @@
                 whdr = document.getElementById("welcome_header");
                 hdrText = "";
                 if (whdr != null) {
-                    if ( hour < 12 ) {// determine whether it is morning
+                    if ( hour < 12 ) {
+                        // determine whether it is morning
                         hdrText = hdrText + "Good Morning, "+name;
                     } else {
                         hour = hour - 12; // convert from 24-hour clock to PM time
@@ -34,7 +84,7 @@
                            hdrText = hdrText + "Good Evening, "+name;
                         }
                     } // end else
-                    hdrText = hdrText + ".&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>Not "+name+"? Please <a onclick=\"getDifferentName()\">click here</a></i>.";
+                    hdrText = hdrText + ".&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>Not "+name+"? Please <a class=\"float_button\" onclick=\"getDifferentName()\">click here</a></i>.";
                     whdr.innerHTML = hdrText;
                 }
             }
@@ -72,9 +122,10 @@
   <a href="#survey">Survey</a>
 </div>
         <h1 class="top_header">George Mason University Department of Computer Science Prospective Student Survey</h1>
-        <h2 id="welcome_header"></h2>
+        <h3 class="welcome" id="welcome_header">Welcome</h3>
         <h2>Please help us better understand our prospect Computer Science students by completing this survey</h2>
         <form action="" method="post" autocomplete="on">
+<!--
         <table align=center" width="100%">
             <tr>
                 <td align="right">Username:</td><td align="left"><input type="text" name="username"  size="20"  autocomplete="on" maxlength="20" autofocus="autofocus" required /></td>
@@ -238,7 +289,12 @@
                     <input type="hidden" name="ratingtstamp" id="ratingtimestamp"/>
                             </td></tr>
         </table>
-        <table>
+-->        
+        <table class="average_and_max_table" align="center" width="100%">
+            <tr class="average_row"><td align="left">Please enter 10 or more comma separated numbers. &nbsp;<input id="avg_max_set" name="avg_max_data" type="text" size="40" onblur="calcAverageMax();" placeholder="1,2,3.....N" pattern="^(100|[1-9]|[1-9][0-9])+(,(100|[1-9]|[1-9][0-9])+){9,}$" />&nbsp;<span class="error_text" id="avg_max_error"></span></td></tr>
+            <tr class="average_row"><td align="left">&nbsp;Average:<span class="output_display" id="average_value">&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;Maximum:<span class="output_display" id="maximum_value">&nbsp;&nbsp;&nbsp;&nbsp;</span></td></tr>
+        </table>
+        <table class="comments_table">
             <tr><td align="left">Please enter any additional comments.</td></tr>
             <tr><td align="left"><textarea rows="10" cols="70" name="comments">Enter your comments here...</textarea></td></tr>
         </table>
