@@ -208,8 +208,51 @@
                 return retval;
             }
             
+            function zipReqStateChange() {
+                            if (xhttp.readyState == 4 && xhttp.status == 200) {
+                                // document.getElementById("ta_comments").innerHTML = this.responseText;
+                                json_zips = xhttp.responseText;
+                                zips_array = xhttp.responseText;
+                            }
+            }
+            
             function zipcodeChange() {
-                
+                var zipcode = document.getElementById("txt_zipcode").value;
+                if( zipcode != null && zipcode != "null" && zipcode.trim() != "" ){
+                    val = zipcode.trim();
+                    // test valid zip code
+                    if( val.length == 5 ){
+                        var xhttp = new XMLHttpRequest();
+                        // get city state
+                        // xhttp.onreadystatechange = zipReqStateChange;
+                        xhttp.onreadystatechange = function() {
+                            if (this.readyState == 4 && this.status == 200) {
+                                // document.getElementById("ta_comments").innerHTML = this.responseText;
+                                var city = document.getElementById("sp_city");
+                                var state = document.getElementById("sp_state");
+                                json_zips = this.responseText;
+                                zips_array = JSON.parse(json_zips);
+                                zl = zips_array["zipcodes"];
+                                found = false;
+                                for(i=0;i < zl.length;i++){
+                                    var o = zl[i];
+                                    lv = o.zip;
+                                    if( lv == val){
+                                        city.innerHTML = o.city;
+                                        state.innerHTML = o.state;
+                                        found = true;
+                                    }
+                                }
+                                if( !found ){
+                                    city.innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+                                    state.innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+                                }
+                            }
+                        };
+                        xhttp.open("GET", "hw3_zipcodes.json", true);
+                        xhttp.send();
+                    }
+                }
             }
         </script>
         <title>George Mason University Department of Computer Science Prospective Student Survey</title>
@@ -240,11 +283,11 @@
                 <td align="right" colspan="1">Street Address:</td><td align="left" colspan="3"><input type="text" name="streetaddress" id="txt_streetaddress" size="100"  autocomplete="on" maxlength="100"/></td>
             </tr>
             <tr>
-                <td align="right">City:</td><td align="left"><span id="city">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
-                <td align="right">State:</td><td align="left"><span id="state">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+                <td align="right">City:</td><td align="left"><span class="ajax_output_display" id="sp_city">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+                <td align="right">State:</td><td align="left"><span class="ajax_output_display" id="sp_state">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
             </tr>
             <tr>
-                <td align="right">Zip Code:</td><td align="left"><input type="text" name="zipcode" id="txt_zipcode" pattern="\(\[0-9]{5}\)" placeholder="#####" size="10"  autocomplete="on" maxlength="5" onchange="zipcodeChange();"/></td>
+                <td align="right">Zip Code:</td><td align="left"><input type="text" name="zipcode" id="txt_zipcode" pattern="\(\[0-9]{5}\)" placeholder="#####" size="10"  autocomplete="on" maxlength="5" onblur="zipcodeChange();"/></td>
             </tr>                
             <tr>
                 <td align="right">Home Page URL:</td><td align="left" colspan="3"><input type="url" id="txt_homepageurl" name="homepageurl"  placeholder="http://domain-name.com" size="30"  autocomplete="on" maxlength="50"/>&nbsp;[http://domain-name.com]</td>
@@ -346,7 +389,7 @@
         </table>
         <table class="comments_table">
             <tr><td align="left">Please enter any additional comments.</td></tr>
-            <tr><td align="left"><textarea rows="10" cols="70" name="comments">Enter your comments here...</textarea></td></tr>
+            <tr><td align="left"><textarea rows="10" cols="70" name="comments" id="ta_comments">Enter your comments here...</textarea></td></tr>
         </table>
         <table align="center" width="100%">
             <tr><td align="center"><input type="submit" value="Submit now" />&nbsp;<input type="reset" value="Reset Form Fields"></td></tr>

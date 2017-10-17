@@ -125,3 +125,13 @@ span.output_display {
     text-decoration: none;
     display: inline-block;    
 }
+
+span.ajax_output_display {
+    background-color: lightgray;
+    color: black;
+    border: 1px solid black;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;    
+}
