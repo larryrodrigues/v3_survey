@@ -118,23 +118,62 @@
             
             function validateSurveyForm() {
                 var retval = true;
-                var surveyForm = document.forms["surveyForm"];
+                // var surveyForm = document.forms["surveyForm"];
                 var nameFirstLast = document.getElementById("txt_namefirstlast").value;
                 var address = document.getElementById("txt_streetaddress").value;
                 var emailAddress = document.getElementById("txt_email").value;
                 var radInterest = document.forms["surveyForm"]["interestind"];
+                var chkLike = document.forms["surveyForm"]["campuslike"];
                 var errorStr = "";
                 
                 if( nameFirstLast != null && nameFirstLast != "null" && nameFirstLast.trim() != "" ){
                     val = nameFirstLast.trim();
                     // var re = new RegExp("^[a-zA-Z\s]*$");
                     // var res = re.test(val);
-                    valid = /[^a-zA-Z\s]/.test(val)
-                    if (valid){
+                    valid = /^[a-zA-Z\s]*$/.test(val)
+                    if (!valid){
                         errorStr = errorStr + "Name must be only letters and spaces.\n";
                     }
                 } else {
                     errorStr = errorStr + "You must supply a valid username\n";
+                }
+                
+                if( address != null && address != "null" && address.trim() != "" ){
+                    val = address.trim();
+                    // var re = new RegExp("^[a-zA-Z\s]*$");
+                    // var res = re.test(val);
+                    valid = /^[a-zA-Z0-9\s]*$/.test(val)
+                    if (!valid){
+                        errorStr = errorStr + "Street address must be only letters, numbers, and spaces.\n";
+                    }
+                } else {
+                    errorStr = errorStr + "You must supply a valid address\n";
+                }
+                
+                // /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+                // Pattern used from https://www.w3resource.com/javascript/form/email-validation.php
+                if( emailAddress != null && emailAddress != "null" && emailAddress.trim() != "" ){
+                    val = emailAddress.trim();
+                    // var re = new RegExp("^[a-zA-Z\s]*$");
+                    // var res = re.test(val);
+                    valid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(val)
+                    if (!valid){
+                        errorStr = errorStr + "Please enter a valid email address.\n";
+                    }
+                } else {
+                    errorStr = errorStr + "You must supply a valid email address\n";
+                }
+                
+                if( chkLike != null ) {
+                    chkCount = 0;
+                    for(i=0; (i<chkLike.length && chkCount<2); i++){
+                        if( chkLike[i].checked){
+                            chkCount++;
+                        }
+                    }
+                    if(chkCount < 2){
+                        errorStr = errorStr + "Please select at least 2 items you liked about the university.\n";
+                    }
                 }
                 
                 if( radInterest != null ){
