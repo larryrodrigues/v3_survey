@@ -10,7 +10,7 @@
                 var dataset = document.getElementById("avg_max_set");
                 if( dataset != null ){
                     var raw = dataset.value;
-                    alert("Got: "+raw);
+                    // alert("Got: "+raw);
                     // test regex ^(100|[1-9]|[1-9][0-9])+(,(100|[1-9]|[1-9][0-9])+){9,}$
                     var patt = new RegExp("^(100|[1-9]|[1-9][0-9])+(,(100|[1-9]|[1-9][0-9])+){9,}$");
                     var res = patt.test(raw);
@@ -121,6 +121,7 @@
                 // var surveyForm = document.forms["surveyForm"];
                 var nameFirstLast = document.getElementById("txt_namefirstlast").value;
                 var address = document.getElementById("txt_streetaddress").value;
+                var zipcode = document.getElementById("txt_zipcode").value;
                 var emailAddress = document.getElementById("txt_email").value;
                 var radInterest = document.forms["surveyForm"]["interestind"];
                 var chkLike = document.forms["surveyForm"]["campuslike"];
@@ -133,6 +134,7 @@
                     valid = /^[a-zA-Z\s]*$/.test(val)
                     if (!valid){
                         errorStr = errorStr + "Name must be only letters and spaces.\n";
+                        document.getElementById("txt_namefirstlast").value = "";
                     }
                 } else {
                     errorStr = errorStr + "You must supply a valid username\n";
@@ -145,11 +147,21 @@
                     valid = /^[a-zA-Z0-9\s]*$/.test(val)
                     if (!valid){
                         errorStr = errorStr + "Street address must be only letters, numbers, and spaces.\n";
+                        document.getElementById("txt_streetaddress").value = "";
                     }
                 } else {
                     errorStr = errorStr + "You must supply a valid address\n";
                 }
-                
+                // var isValidZip = /(^\d{5}$)|(^\d{5}-\d{4}$)/.test("90210");
+                // Not Required
+                if( zipcode != null && zipcode != "null" && zipcode.trim() != "" ){
+                    val = zipcode.trim();
+                    valid = /(^\d{5}$)/.test(val)
+                    if (!valid){
+                        errorStr = errorStr + "Zipcode must be 5 digits.\n";
+                        document.getElementById("txt_zipcode").value = "";
+                    }
+                }
                 // /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
                 // Pattern used from https://www.w3resource.com/javascript/form/email-validation.php
                 if( emailAddress != null && emailAddress != "null" && emailAddress.trim() != "" ){
@@ -159,6 +171,7 @@
                     valid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(val)
                     if (!valid){
                         errorStr = errorStr + "Please enter a valid email address.\n";
+                        document.getElementById("txt_email").value = "";
                     }
                 } else {
                     errorStr = errorStr + "You must supply a valid email address\n";
@@ -194,6 +207,10 @@
                 }
                 return retval;
             }
+            
+            function zipcodeChange() {
+                
+            }
         </script>
         <title>George Mason University Department of Computer Science Prospective Student Survey</title>
          <link rel="stylesheet" type="text/css" href="lrhw2_styles.css"/>
@@ -223,63 +240,12 @@
                 <td align="right" colspan="1">Street Address:</td><td align="left" colspan="3"><input type="text" name="streetaddress" id="txt_streetaddress" size="100"  autocomplete="on" maxlength="100"/></td>
             </tr>
             <tr>
-                <td align="right">City:</td><td align="left"><input type="text" name="city" id="txt_city" size="30"  autocomplete="on" maxlength="50"/></td>
-                <td align="right">State:</td><td align="left"><select name="state" id="sel_state">
-        <option value="--">----------</option>                
-	<option value="AL">Alabama</option>
-	<option value="AK">Alaska</option>
-	<option value="AZ">Arizona</option>
-	<option value="AR">Arkansas</option>
-	<option value="CA">California</option>
-	<option value="CO">Colorado</option>
-	<option value="CT">Connecticut</option>
-	<option value="DE">Delaware</option>
-	<option value="DC">District Of Columbia</option>
-	<option value="FL">Florida</option>
-	<option value="GA">Georgia</option>
-	<option value="HI">Hawaii</option>
-	<option value="ID">Idaho</option>
-	<option value="IL">Illinois</option>
-	<option value="IN">Indiana</option>
-	<option value="IA">Iowa</option>
-	<option value="KS">Kansas</option>
-	<option value="KY">Kentucky</option>
-	<option value="LA">Louisiana</option>
-	<option value="ME">Maine</option>
-	<option value="MD">Maryland</option>
-	<option value="MA">Massachusetts</option>
-	<option value="MI">Michigan</option>
-	<option value="MN">Minnesota</option>
-	<option value="MS">Mississippi</option>
-	<option value="MO">Missouri</option>
-	<option value="MT">Montana</option>
-	<option value="NE">Nebraska</option>
-	<option value="NV">Nevada</option>
-	<option value="NH">New Hampshire</option>
-	<option value="NJ">New Jersey</option>
-	<option value="NM">New Mexico</option>
-	<option value="NY">New York</option>
-	<option value="NC">North Carolina</option>
-	<option value="ND">North Dakota</option>
-	<option value="OH">Ohio</option>
-	<option value="OK">Oklahoma</option>
-	<option value="OR">Oregon</option>
-	<option value="PA">Pennsylvania</option>
-	<option value="RI">Rhode Island</option>
-	<option value="SC">South Carolina</option>
-	<option value="SD">South Dakota</option>
-	<option value="TN">Tennessee</option>
-	<option value="TX">Texas</option>
-	<option value="UT">Utah</option>
-	<option value="VT">Vermont</option>
-	<option value="VA">Virginia</option>
-	<option value="WA">Washington</option>
-	<option value="WV">West Virginia</option>
-	<option value="WI">Wisconsin</option>
-	<option value="WY">Wyoming</option>
-</select>
-                </td>
+                <td align="right">City:</td><td align="left"><span id="city">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+                <td align="right">State:</td><td align="left"><span id="state">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
             </tr>
+            <tr>
+                <td align="right">Zip Code:</td><td align="left"><input type="text" name="zipcode" id="txt_zipcode" pattern="\(\[0-9]{5}\)" placeholder="#####" size="10"  autocomplete="on" maxlength="5" onchange="zipcodeChange();"/></td>
+            </tr>                
             <tr>
                 <td align="right">Home Page URL:</td><td align="left" colspan="3"><input type="url" id="txt_homepageurl" name="homepageurl"  placeholder="http://domain-name.com" size="30"  autocomplete="on" maxlength="50"/>&nbsp;[http://domain-name.com]</td>
             </tr>
