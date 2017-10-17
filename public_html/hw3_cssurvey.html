@@ -3,13 +3,13 @@
     <head>
         <script type="text/JavaScript">   
             function calcAverageMax() {
-                error_block = document.getElementById("avg_max_error");
-                average_block = document.getElementById("average_value");
-                maximum_block = document.getElementById("maximum_value");
+                var error_block = document.getElementById("avg_max_error");
+                var average_block = document.getElementById("average_value");
+                var maximum_block = document.getElementById("maximum_value");
                 
-                dataset = document.getElementById("avg_max_set");
+                var dataset = document.getElementById("avg_max_set");
                 if( dataset != null ){
-                    raw = dataset.value;
+                    var raw = dataset.value;
                     alert("Got: "+raw);
                     // test regex ^(100|[1-9]|[1-9][0-9])+(,(100|[1-9]|[1-9][0-9])+){9,}$
                     var patt = new RegExp("^(100|[1-9]|[1-9][0-9])+(,(100|[1-9]|[1-9][0-9])+){9,}$");
@@ -26,11 +26,11 @@
                             maximum_block.innerHTML = "&nbsp;&nbsp:&nbsp;&nbsp";
                         }
                     } else {
-                        total = 0;
-                        max = 0;
-                        values = raw.split(",");
+                        var total = 0;
+                        var max = 0;
+                        var values = raw.split(",");
                         for (idx=0; idx<values.length; idx++) {
-                            tmp = parseInt(values[idx]);
+                            var tmp = parseInt(values[idx]);
                             total += tmp;
                             if(tmp > max) {
                                 max = tmp;
@@ -69,8 +69,8 @@
                     //expires = expDate.toGMTString();
                     //document.cookie = "name="+escape(name)+"; expires="+expires;
                 }
-                whdr = document.getElementById("welcome_header");
-                hdrText = "";
+                var whdr = document.getElementById("welcome_header");
+                var hdrText = "";
                 if (whdr != null) {
                     if ( hour < 12 ) {
                         // determine whether it is morning
@@ -91,15 +91,20 @@
             
             function getName(pageRefresh) {
                 pageRefresh = !!pageRefresh;
-                name = window.prompt( "Please enter your name.");
-                if( name != null &&  name.trim() != "") {
+                var name = window.prompt( "Please enter your name.");
+                if( name != null &&  name.trim() != "null" && name.trim() != "") {
                     expDate = new Date();
                     expDate.setDate(expDate.getDate() + 14); 
                     expires = expDate.toGMTString();
                     document.cookie = "name="+escape(name)+"; expires="+expires;
-                    window.location.reload(true);
+                    if( pageRefresh ){
+                        window.location.reload(true);
+                    }
                 } else {
-                    alert("Please enter a valid name.");
+                    if( !pageRefresh ) {
+                        // User clicked "Not Me" and hit cancel or no name enterred.
+                        alert("Please enter a valid name.");
+                    }
                 }
             }
             
@@ -109,6 +114,46 @@
             
             function pageSetup(){
                 greetUser();
+            }
+            
+            function validateSurveyForm() {
+                var retval = true;
+                var surveyForm = document.forms["surveyForm"];
+                var nameFirstLast = document.getElementById("txt_namefirstlast").value;
+                var address = document.getElementById("txt_streetaddress").value;
+                var emailAddress = document.getElementById("txt_email").value;
+                var radInterest = document.forms["surveyForm"]["interestind"];
+                var errorStr = "";
+                
+                if( nameFirstLast != null && nameFirstLast != "null" && nameFirstLast.trim() != "" ){
+                    val = nameFirstLast.trim();
+                    // var re = new RegExp("^[a-zA-Z\s]*$");
+                    // var res = re.test(val);
+                    valid = /[^a-zA-Z\s]/.test(val)
+                    if (valid){
+                        errorStr = errorStr + "Name must be only letters and spaces.\n";
+                    }
+                } else {
+                    errorStr = errorStr + "You must supply a valid username\n";
+                }
+                
+                if( radInterest != null ){
+                    checked = false;
+                    for(i=0; (i<radInterest.length && !checked); i++){
+                        if( radInterest[i].checked){
+                            checked = true;
+                        }
+                    }
+                    if(!checked){
+                        errorStr = errorStr + "You must select a University interest item.\n";
+                    }
+                }
+                
+                if( errorStr != null && errorStr != "" ){
+                    retval = false;
+                    alert(errorStr);
+                }
+                return retval;
             }
         </script>
         <title>George Mason University Department of Computer Science Prospective Student Survey</title>
@@ -124,23 +169,23 @@
         <h1 class="top_header">George Mason University Department of Computer Science Prospective Student Survey</h1>
         <h3 class="welcome" id="welcome_header">Welcome</h3>
         <h2>Please help us better understand our prospect Computer Science students by completing this survey</h2>
-        <form action="" method="post" autocomplete="on">
-<!--
+        <form action="" name ="surveyForm" method="post" autocomplete="on" onsubmit="return validateSurveyForm()">
+
         <table align=center" width="100%">
             <tr>
-                <td align="right">Username:</td><td align="left"><input type="text" name="username"  size="20"  autocomplete="on" maxlength="20" autofocus="autofocus" required /></td>
-                <td align="right">Email Address:</td><td align="left"><input required type="email" name="email" size="30"  autocomplete="on" maxlength="50" placeholder="name@domain-name.com" />&nbsp;[name@domain-name.com]</td>
+                <td align="right">Username:</td><td align="left"><input type="text" name="username"  id="txt_username"  size="20"  autocomplete="on" maxlength="20" autofocus="autofocus" required /></td>
+                <td align="right">Email Address:</td><td align="left"><input required type="email" name="email" id="txt_email" size="30"  autocomplete="on" maxlength="50" placeholder="name@domain-name.com" />&nbsp;[name@domain-name.com]</td>
             </tr>
             <tr>
-                <td align="right">Name (First Last):</td><td align="left"><input required type="text" name="namefirstlast"  size="30"  autocomplete="on" maxlength="50"/></td>
-                <td align="right">Phone Number:</td><td align="left"><input type="tel" name="phonenumber" pattern="\(\d{3}\)+\d{3}-\d{4}" placeholder="(###) ###-####"/>&nbsp;[(123)-456-7890]</td>
+                <td align="right">Name (First Last):</td><td align="left"><input required type="text" name="namefirstlast" id="txt_namefirstlast" size="30"  autocomplete="on" maxlength="50"/></td>
+                <td align="right">Phone Number:</td><td align="left"><input type="tel" name="phonenumber" id="txt_phonenumber" pattern="\(\d{3}\)+\d{3}-\d{4}" placeholder="(###) ###-####"/>&nbsp;[(123)456-7890]</td>
             </tr>
             <tr>
-                <td align="right" colspan="1">Street Address:</td><td align="left" colspan="3"><input type="text" name="streetaddress"  size="100"  autocomplete="on" maxlength="100"/></td>
+                <td align="right" colspan="1">Street Address:</td><td align="left" colspan="3"><input type="text" name="streetaddress" id="txt_streetaddress" size="100"  autocomplete="on" maxlength="100"/></td>
             </tr>
             <tr>
-                <td align="right">City:</td><td align="left"><input type="text" name="city"  size="30"  autocomplete="on" maxlength="50"/></td>
-                <td align="right">State:</td><td align="left"><select name="state" >
+                <td align="right">City:</td><td align="left"><input type="text" name="city" id="txt_city" size="30"  autocomplete="on" maxlength="50"/></td>
+                <td align="right">State:</td><td align="left"><select name="state" id="sel_state">
         <option value="--">----------</option>                
 	<option value="AL">Alabama</option>
 	<option value="AK">Alaska</option>
@@ -197,15 +242,15 @@
                 </td>
             </tr>
             <tr>
-                <td align="right">Home Page URL:</td><td align="left" colspan="3"><input type="url" name="homepageurl"  placeholder="http://domain-name.com" size="30"  autocomplete="on" maxlength="50"/>&nbsp;[http://domain-name.com]</td>
+                <td align="right">Home Page URL:</td><td align="left" colspan="3"><input type="url" id="txt_homepageurl" name="homepageurl"  placeholder="http://domain-name.com" size="30"  autocomplete="on" maxlength="50"/>&nbsp;[http://domain-name.com]</td>
             </tr>
             <tr>
-                <td align="right">Date Of Survey:</td><td align="left" colspan="3"><input type="date" name="surveydate" pattern="yyyy-mm-dd" placeholder="yyyy-mm-dd"/>&nbsp;[yyyy-mm-dd]</td>
+                <td align="right">Date Of Survey:</td><td align="left" colspan="3"><input type="date" id="txt_surveydate" name="surveydate" pattern="yyyy-mm-dd" placeholder="yyyy-mm-dd"/>&nbsp;[yyyy-mm-dd]</td>
             </tr>
             <tr>
                 <td align="right">What is your high school graduation month and year?</td>
                 <td align="left" colspan="3">
-                    <input type="text" name="hsgradmonth" placeholder="Select a Month" list="months"/>
+                    <input type="text" name="hsgradmonth" id="txt_hsgradmonth" placeholder="Select a Month" list="months"/>
                     <datalist id="months">
                         <option value="January"></option>
                         <option value="February"></option>
@@ -221,7 +266,7 @@
                         <option value="December"></option>                        
                     </datalist>
                     &nbsp;
-                    <input type="text" size="10" maxlength="4" minlength="4" placeholder="Year YYYY" pattern="[1,2][0-9][0-9][0-9]" />&nbsp;[YYYY]
+                    <input type="text" name="gradyear" id="txt_gradyear" size="10" maxlength="4" minlength="4" placeholder="Year YYYY" pattern="[1,2][0-9][0-9][0-9]" />&nbsp;[YYYY]
                 </td>
             </tr>
         </table>
@@ -230,27 +275,27 @@
             <tr class="survey_option_row">
                 <td align="right" colspan="1" class="survey_option" style="width:50%">What did you like best about the campus?</td>
                 <td align="left" colspan="1" class="survey_option"  style="width:50%">
-                      <input type="checkbox" name="campuslike" value="students" />Students <br />
-                      <input type="checkbox" name="campuslike" value="location" />Location<br />
-                      <input type="checkbox" name="campuslike" value="campus" />Campus<br />
-                      <input type="checkbox" name="campuslike" value="atmosphere" />Atmosphere<br />
-                      <input type="checkbox" name="campuslike" value="dormrooms" />Dorm Rooms<br />
-                      <input type="checkbox" name="campuslike" value="sports" />Sports<br />
+                      <input type="checkbox" name="campuslike" id="students" value="students" />Students <br />
+                      <input type="checkbox" name="campuslike" id="location" value="location" />Location<br />
+                      <input type="checkbox" name="campuslike" id="campus" value="campus" />Campus<br />
+                      <input type="checkbox" name="campuslike" id="atmosphere" value="atmosphere" />Atmosphere<br />
+                      <input type="checkbox" name="campuslike" id="dormrooms" value="dormrooms" />Dorm Rooms<br />
+                      <input type="checkbox" name="campuslike" id="sports" value="sports" />Sports<br />
                 </td>
             </tr>
             <tr>
                 <td align="right" colspan="1" class="survey_option" style="width:50%">How did you become interested in the University?</td>
                 <td align="left" colspan="1" class="survey_option"  style="width:50%">
-                      <input type="radio" name="interestind" value="friends" />Friends<br />
-                      <input type="radio" name="interestind" value="television" />Television<br />
-                      <input type="radio" name="interestind" value="internet" />Internet<br />
-                      <input type="radio" name="interestind" value="other" />Other<br />
+                      <input type="radio" name="interestind" id="friends" value="friends" />Friends<br />
+                      <input type="radio" name="interestind" id="television" value="television" />Television<br />
+                      <input type="radio" name="interestind" id="internet" value="internet" />Internet<br />
+                      <input type="radio" name="interestind" id="other" value="other" />Other<br />
                 </td>
             </tr>
             <tr>
                 <td align="right" colspan="1" class="survey_option" style="width:50%">How likely are you to recommend this school to other prospective students?</td>
                 <td align="left" colspan="1" class="survey_option"  style="width:50%">
-                    <select name="likelyrecommend">
+                    <select name="likelyrecommend" id="sel_likelyrecommend">
                         <option value="verylikely">Very Likely</option>
                         <option value="likely">Likely</option>
                         <option value="unlikely">Unlikely</option>
@@ -259,8 +304,8 @@
         </table>
         <table class="movie_rating_table" align="center" width="100%">
             <tr class="movie_rating_row"><td align="left">Please rate a movie.</td></tr>
-                        <tr class="movie_rating_row"><td><input type="hidden" name="userid" value="1"/>
-        &nbsp;Movie Title:&nbsp;<select name="movieid">
+                        <tr class="movie_rating_row"><td><input type="hidden" name="userid" id="hid_userid" value="1"/>
+        &nbsp;Movie Title:&nbsp;<select name="movieid" id="sel_movieid">
         <option value="-1">----------</option>
 	<option value="1">Sweet Home Alabama</option>
 	<option value="2">Godzilla</option>
@@ -273,7 +318,7 @@
 	<option value="9">Red</option>
         <option value="10">Life Of Pie</option>
         </select>&nbsp;Movie Rating:&nbsp;
-        <select name="movierating">
+        <select name="movierating" id="sel_movierating">
         <option value="-1">----------</option>
 	<option value="1">1 -- terrible</option>
 	<option value="2">2</option>
@@ -286,10 +331,10 @@
 	<option value="9">9</option>
         <option value="10">10 -- perfect</option>
                     </select>&nbsp;[1 (terrible)... 10 (perfect)]&nbsp;
-                    <input type="hidden" name="ratingtstamp" id="ratingtimestamp"/>
+                    <input type="hidden" name="ratingtstamp" id="hid_ratingtimestamp"/>
                             </td></tr>
         </table>
--->        
+    
         <table class="average_and_max_table" align="center" width="100%">
             <tr class="average_row"><td align="left">Please enter 10 or more comma separated numbers. &nbsp;<input id="avg_max_set" name="avg_max_data" type="text" size="40" onblur="calcAverageMax();" placeholder="1,2,3.....N" pattern="^(100|[1-9]|[1-9][0-9])+(,(100|[1-9]|[1-9][0-9])+){9,}$" />&nbsp;<span class="error_text" id="avg_max_error"></span></td></tr>
             <tr class="average_row"><td align="left">&nbsp;Average:<span class="output_display" id="average_value">&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;Maximum:<span class="output_display" id="maximum_value">&nbsp;&nbsp;&nbsp;&nbsp;</span></td></tr>
@@ -299,7 +344,7 @@
             <tr><td align="left"><textarea rows="10" cols="70" name="comments">Enter your comments here...</textarea></td></tr>
         </table>
         <table align="center" width="100%">
-            <tr><td align="center"><input type="submit" value="Submit now" /></td></tr>
+            <tr><td align="center"><input type="submit" value="Submit now" />&nbsp;<input type="reset" value="Reset Form Fields"></td></tr>
         </table>
         </form>
         <div class="fixed_bottom_right"><a href="https://www2.gmu.edu/" name="mason-logo"><img src="mason-logo-green.png"/></a></div>
