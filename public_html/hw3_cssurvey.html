@@ -1,6 +1,13 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
     <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>George Mason University Department of Computer Science Prospective Student Survey</title>
+        <link rel="stylesheet" href="jquery-ui.min.css"/>
+        <link rel="stylesheet" type="text/css" href="lrhw2_styles.css"/>
+        <script src="external/jquery/jquery.js"></script>
+        <script src="jquery-ui.min.js"></script>
         <script type="text/JavaScript">   
             function calcAverageMax() {
                 var error_block = document.getElementById("avg_max_error");
@@ -255,10 +262,14 @@
                 }
             }
         </script>
-        <title>George Mason University Department of Computer Science Prospective Student Survey</title>
-         <link rel="stylesheet" type="text/css" href="lrhw2_styles.css"/>
+        <script type="text/JavaScript">        
+            $(document).ready(function() {
+                $( document ).tooltip();
+                pageSetup();
+            });
+        </script>
     </head>
-    <body class="welcome" onload="pageSetup()">
+    <body class="welcome">
 <div class="topnav">
   <a class="active" href="./hw2_csinfo.html">CS Department Information</a>
   <a href="./index.html">Larry Rodrigues Class Web Page</a>
@@ -314,7 +325,7 @@
                         <option value="December"></option>                        
                     </datalist>
                     &nbsp;
-                    <input type="text" name="gradyear" id="txt_gradyear" size="10" maxlength="4" minlength="4" placeholder="Year YYYY" pattern="[1,2][0-9][0-9][0-9]" />&nbsp;[YYYY]
+                    <input type="text" name="gradyear" id="txt_gradyear" size="10" maxlength="4" placeholder="Year YYYY" pattern="[1,2][0-9][0-9][0-9]" />&nbsp;[YYYY]
                 </td>
             </tr>
         </table>
@@ -395,6 +406,6 @@
             <tr><td align="center"><input type="submit" value="Submit now" />&nbsp;<input type="reset" value="Reset Form Fields"></td></tr>
         </table>
         </form>
-        <div class="fixed_bottom_right"><a href="https://www2.gmu.edu/" name="mason-logo"><img src="mason-logo-green.png"/></a></div>
+        <div class="fixed_bottom_right"><a href="https://www2.gmu.edu/" name="mason-logo"><img title="Please visit http://www.gmu.edu for more information" src="mason-logo-green.png"/></a></div>
     </body>
 </html>

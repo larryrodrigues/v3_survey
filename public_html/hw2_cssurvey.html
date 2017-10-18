@@ -1,71 +1,10 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-        <script type="text/JavaScript">                 
-            function greetUser() {
-                var now = new Date(); // current date
-                var hour = now.getHours(); // current hour 0 - 23
-                var name;
-                
-                if( document.cookie){
-                    var myCookie = unescape(document.cookie);
-                    var cookieTokens = myCookie.split("=");
-                    name = cookieTokens[1];
-                } else {
-                    getName(false);
-                    
-                    //name = window.prompt( "Please enter your name.");
-                    //expDate = new Date();
-                    //expDate.setDate(expDate.getDate() + 14); 
-                    //expires = expDate.toGMTString();
-                    //document.cookie = "name="+escape(name)+"; expires="+expires;
-                }
-                whdr = document.getElementById("welcome_header");
-                hdrText = "";
-                if (whdr != null) {
-                    if ( hour < 12 ) {
-                        // determine whether it is morning
-                        hdrText = hdrText + "Good Morning, "+name;
-                    } else {
-                        hour = hour - 12; // convert from 24-hour clock to PM time
-                        // determine whether it is afternoon or evening
-                        if ( hour < 6 ){
-                            hdrText = hdrText + "Good Afternoon, "+name;
-                        }else{
-                           hdrText = hdrText + "Good Evening, "+name;
-                        }
-                    } // end else
-                    hdrText = hdrText + ".&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>Not "+name+"? Please <a onclick=\"getDifferentName()\">click here</a></i>.";
-                    whdr.innerHTML = hdrText;
-                }
-            }
-            
-            function getName(pageRefresh) {
-                pageRefresh = !!pageRefresh;
-                name = window.prompt( "Please enter your name.");
-                if( name != null &&  name.trim() != "") {
-                    expDate = new Date();
-                    expDate.setDate(expDate.getDate() + 14); 
-                    expires = expDate.toGMTString();
-                    document.cookie = "name="+escape(name)+"; expires="+expires;
-                    window.location.reload(true);
-                } else {
-                    alert("Please enter a valid name.");
-                }
-            }
-            
-            function getDifferentName() {
-              getName(true);    
-            }
-            
-            function pageSetup(){
-                greetUser();
-            }
-        </script>
         <title>George Mason University Department of Computer Science Prospective Student Survey</title>
          <link rel="stylesheet" type="text/css" href="lrhw2_styles.css"/>
     </head>
-    <body class="welcome" onload="pageSetup()">
+    <body class="welcome">
 <div class="topnav">
   <a class="active" href="./hw2_csinfo.html">CS Department Information</a>
   <a href="./index.html">Larry Rodrigues Class Web Page</a>
@@ -73,7 +12,6 @@
   <a href="#survey">Survey</a>
 </div>
         <h1 class="top_header">George Mason University Department of Computer Science Prospective Student Survey</h1>
-        <h2 id="welcome_header"></h2>
         <h2>Please help us better understand our prospect Computer Science students by completing this survey</h2>
         <form action="" method="post" autocomplete="on">
         <table align=center" width="100%">
