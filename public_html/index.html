@@ -4,10 +4,37 @@
         <title>Title</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="jquery-ui.min.css">
+        <link rel="stylesheet" type="text/css" href="lrhw2_styles.css"/>
+        <script src="external/jquery/jquery.js"></script>
+        <script src="jquery-ui.min.js"></script>
+        <script type="text/JavaScript">
+  $( function() {
+      $( "#tabs" ).tabs();
+      $( "#date" ).datepicker();
+  } );
+        </script>
     </head>
     <body>
+<div id="tabs">
+  <ul>
+    <li><a href="#tabs-1">Homepage</a></li>
+    <li><a href="#tabs-2">Homework 2</a></li>
+    <li><a href="#tabs-3">Homework 3</a></li>
+    <li><a href="./hw3_cssurvey.html">Tab 4 (AJAX)</a></li>
+  </ul>
+  <div id="tabs-1">
         <table align="center" width="100%">
             <tr><td><a href="./hw3_cssurvey.html">Start Here</a></td></tr>
+            <tr><td><form><input type="text" name="date" id="date"></form></td></tr>
         </table>
+  </div>
+  <div id="tabs-2">
+    <p>Homework Submission 2</p>
+  </div>
+  <div id="tabs-3">
+    <p>Homework Submission 3</p>   
+  </div>
+</div>
     </body>
 </html>
