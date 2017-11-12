@@ -68,13 +68,17 @@
                     var cookieTokens = myCookie.split("=");
                     name = cookieTokens[1];
                 } else {
-                    getName(false);
-                    
+                    name = getName(false);
                     //name = window.prompt( "Please enter your name.");
                     //expDate = new Date();
                     //expDate.setDate(expDate.getDate() + 14); 
                     //expires = expDate.toGMTString();
                     //document.cookie = "name="+escape(name)+"; expires="+expires;
+                }
+                if ( name != null && name != "null" ) {
+                    name = name.trim();
+                } else {
+                    name = "";
                 }
                 var whdr = document.getElementById("welcome_header");
                 var hdrText = "";
@@ -105,7 +109,8 @@
                     expires = expDate.toGMTString();
                     document.cookie = "name="+escape(name)+"; expires="+expires;
                     if( pageRefresh ){
-                        window.location.reload(true);
+                         window.location.reload(true);
+                        // $(document).load("hw3_cssurvey.html");
                     }
                 } else {
                     if( !pageRefresh ) {
@@ -113,6 +118,7 @@
                         alert("Please enter a valid name.");
                     }
                 }
+                return name;
             }
             
             function getDifferentName() {
@@ -270,6 +276,7 @@
         </script>
     </head>
     <body class="welcome">
+<div class="bkg">
 <div class="topnav">
   <a class="active" href="./hw2_csinfo.html">CS Department Information</a>
   <a href="./index.html">Larry Rodrigues Class Web Page</a>
@@ -280,7 +287,6 @@
         <h3 class="welcome" id="welcome_header">Welcome</h3>
         <h2>Please help us better understand our prospect Computer Science students by completing this survey</h2>
         <form action="" name ="surveyForm" method="post" autocomplete="on" onsubmit="return validateSurveyForm()">
-
         <table align=center" width="100%">
             <tr>
                 <td align="right">Username:</td><td align="left"><input type="text" name="username"  id="txt_username"  size="20"  autocomplete="on" maxlength="20" autofocus="autofocus" required /></td>
@@ -407,5 +413,6 @@
         </table>
         </form>
         <div class="fixed_bottom_right"><a href="https://www2.gmu.edu/" name="mason-logo"><img title="Please visit http://www.gmu.edu for more information" src="mason-logo-green.png"/></a></div>
+</div>
     </body>
 </html>

@@ -16,6 +16,11 @@ body.welcome {
     margin:0;
 }
 
+div.bkg {
+    background-color: lightgrey;
+    margin:0;
+}
+
 .top_header {
     text-align: center;
     text-shadow: 4px 4px yellow;
